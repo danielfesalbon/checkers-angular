@@ -1,6 +1,6 @@
 # Checkers
 
-Here's the one where I based this game. https://github.com/danielfesalbon/checkers . The first one was kinda lame, it's not yet finish but this one does I guess haha. Leave a star or fork. Thanks.
+Here's the one where I based this game. https://github.com/danielfesalbon/checkers . The first one was kinda lame, it's not yet finish but this one was. I guess haha. Leave a star or fork. Thanks.
 
 ## Description
  - Consider player discretions on turns to move
