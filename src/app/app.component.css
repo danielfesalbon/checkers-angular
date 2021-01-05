@@ -1,0 +1,31 @@
+.tile {
+    width: 50px;
+    height: 50px;
+    font-size: 9px;
+}
+
+.board {
+    width: 400px;
+    margin-top: 5%;
+}
+
+.p1-knight {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    background-color: yellow;
+}
+
+.tool-bar {
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.begin-button {
+    margin: 0 auto;
+}
+
+.texts {
+    color: whitesmoke;
+}
