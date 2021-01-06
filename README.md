@@ -14,4 +14,6 @@ Here's the one where I based this game. https://github.com/danielfesalbon/checke
  
  ## Screenshots
  ![alt text](https://github.com/danielfesalbon/checkers-angular/blob/main/src/assets/CHECKERS1.PNG?raw=true)
-
+ ![alt text](https://github.com/danielfesalbon/checkers-angular/blob/main/src/assets/CHECKERS2.PNG?raw=true)
+ ![alt text](https://github.com/danielfesalbon/checkers-angular/blob/main/src/assets/CHECKERS3.PNG?raw=true)
+ ![alt text](https://github.com/danielfesalbon/checkers-angular/blob/main/src/assets/CHECKERS4.PNG?raw=true)
