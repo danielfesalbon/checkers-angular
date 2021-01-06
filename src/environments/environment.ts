@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  badgeurl: 'http://api.github.com/repos/',
+  badgeurl: 'https://api.github.com/repos/',
   link: 'https://github.com/danielfesalbon/checkers-angular'
 };
 
