@@ -11,4 +11,7 @@ Here's the one where I based this game. https://github.com/danielfesalbon/checke
  
  ## Sample Game Play
  [![Alt text](https://img.youtube.com/vi/LAs6qTr_XHs/0.jpg)](https://www.youtube.com/watch?v=LAs6qTr_XHs)
+ 
+ ## Screenshots
+ ![alt text](https://github.com/danielfesalbon/checkers-angular/tree/main/src/assets/CHECKERS1.png?raw=true)
 
