@@ -55,3 +55,10 @@ a {
     text-decoration: none;
     cursor: pointer;
 }
+
+.turn-message {
+    padding-top: 5%;
+    width: 100%;
+    color: white;
+    text-align: center;
+}

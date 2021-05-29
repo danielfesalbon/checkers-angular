@@ -1,3 +1,4 @@
+<!--<div class="turn-message" id="turn-message">Black's turn</div>-->
 <div class="container board" id="board">
     <div class="row" *ngFor="let r of row">
         <div class="col-sm tile" *ngFor="let c of col" id="{{r + c}}" (click)="selectTile($event)">

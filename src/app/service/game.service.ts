@@ -11,13 +11,23 @@ export class GameService {
   col = ['1', '2', '3', '4', '5', '6', '7', '8'];
   tiles = [];
 
+  p1: boolean;
+  p2; boolean;
+
 
   gameStart() {
+
+    this.p1 = true;
+    this.p2 = false;
+
     let i = 0, x = 0, p1 = 0, p2 = 0;
     for (let r in this.row) {
       x = x + 1;
       let y = 0;
       for (let c in this.col) {
+        //let tile = document.getElementById(this.row[r] + this.col[c]);
+        //tile.innerHTML = this.row[r] + this.col[c];
+
         i = i + 1, y = y + 1;
         if (i <= 24) {
           if ((this.odd(x) && !this.odd(y)) || (!this.odd(x) && this.odd(y))) {
@@ -83,68 +93,129 @@ export class GameService {
 
 
   move(element: HTMLElement, player) {
+
     let elid = element.id, pos: any;
     if (element.classList[0] != player) {
       pos = element.classList[0];
     } else {
       pos = element.classList[1]
     }
+
+    //let turn1: boolean = elid.split("-")[0] == "P1" && this.p1;
+    // let turn2: boolean = elid.split("-")[0] == "P2" && this.p2;
+
+    //if (turn1 || turn2) {
+
     sessionStorage.setItem('knight', elid);
     sessionStorage.setItem('curpos', pos);
     sessionStorage.setItem('player', player);
+
     this.checkMoves();
+    //}
   }
 
 
 
   selectTile(event) {
     let tile = document.getElementById(event.path[0].id);
+
     if (tile.id.split("-")[0] != "P1" && tile.id.split("-")[0] != "P2") {
+
       let moves: any[] = [];
       moves = JSON.parse(sessionStorage.getItem('moves'));
       let tileid = moves.find(m => { return m == tile.id });
-      if (tileid != undefined) {
+
+      if (tileid != undefined && sessionStorage.getItem('knight') != null) {
+
         let knight: HTMLElement = <HTMLElement>document.getElementById(sessionStorage.getItem('knight'));
         let currentpos = document.getElementById(knight.classList[0]);
         let nextpos = document.getElementById(tileid);
+
         if (!this.haveKnight(nextpos)) {
+
           if (knight.classList[0] != "P1" && knight.classList[0] != "P2") {
             currentpos = document.getElementById(knight.classList[0]);
             knight.classList.remove(knight.classList[0]);
+
           } else {
+
             currentpos = document.getElementById(knight.classList[1]);
             knight.classList.remove(knight.classList[1]);
+
           }
+
           currentpos.removeChild(knight);
           knight.classList.add(tileid);
           nextpos.appendChild(knight);
+
+
+          /*if (this.p1) {
+            this.p1 = false;
+            this.p2 = true;
+          } else {
+            this.p2 = false;
+            this.p1 = true;
+          }
+
+
+          let turnmessage = document.getElementById('turn-message');
+          if (this.p1) {
+            turnmessage.innerHTML = "Black's turn";
+          }
+          if (this.p2) {
+            turnmessage.innerHTML = "White's turn";
+          }*/
+
           this.checkEnemy(currentpos, nextpos);
           this.checkIfKing(knight, tileid);
+
         }
+
       }
+
+      sessionStorage.removeItem('knight');
+      sessionStorage.removeItem('curpos');
+
     }
   }
 
   checkEnemy(from: HTMLElement, to: HTMLElement) {
+
+    if (this.p1) {
+      this.p1 = false;
+      this.p2 = true;
+    } else {
+      this.p2 = false;
+      this.p1 = true;
+    }
+
     let Xs = this.col.slice(this.col.indexOf(from.id.split("")[1]), this.col.indexOf(to.id.split("")[1]));
     let Ys = this.row.slice(this.row.indexOf(from.id.split("")[0]), this.row.indexOf(to.id.split("")[0]));
+
     if (from.id.split("")[1] > to.id.split("")[1]) {
       Xs = this.col.slice(this.col.indexOf(to.id.split("")[1]), this.col.indexOf(from.id.split("")[1]));
     }
+
     if (from.id.split("")[0] > to.id.split("")[0]) {
       Ys = this.row.slice(this.row.indexOf(to.id.split("")[0]), this.row.indexOf(from.id.split("")[0]));
     }
+
     Xs.shift(), Ys.shift(), Ys.reverse();
+
     let paths: any[] = [];
+
     if (Ys.length == Xs.length) {
       for (let i = 0; i < Ys.length; i++) {
         paths.push(Ys[i] + Xs[i]);
       }
     }
+
     let enemy = sessionStorage.getItem('player') == "P1" ? "P2" : "P1";
     let enemies = document.getElementsByClassName(enemy);
+
     for (let path of paths) {
       for (let knights in enemies) {
+
         if (enemies[knights].classList != undefined) {
           if (enemies[knights].classList.contains(path)) {
             document.getElementById(path).removeChild(enemies[knights]);
@@ -152,6 +223,18 @@ export class GameService {
         }
       }
     }
+
+
+
+
+    let turnmessage = document.getElementById('turn-message');
+    if (this.p1) {
+      turnmessage.innerHTML = "Black's turn";
+    }
+    if (this.p2) {
+      turnmessage.innerHTML = "White's turn";
+    }
+
   }
 
 
@@ -160,11 +243,15 @@ export class GameService {
   }
 
   checkMoves() {
+
     let curpos = sessionStorage.getItem('curpos');
     let moves: any[] = [];
+
     let cury = this.row[this.row.indexOf(curpos.split("")[0])];
     let curx = this.col[this.col.indexOf(curpos.split("")[1])];
+
     let y1index = this.row.indexOf(cury), y2index = this.row.indexOf(cury);
+
     for (let i = +curx; i <= this.col.length; i++) {
       y1index = y1index - 1, y2index = y2index + 1;
       if (this.row[y1index] != undefined && this.col[i] != undefined && this.row[y1index] != null && this.col[i] != null) {
@@ -174,7 +261,9 @@ export class GameService {
         moves.push(this.row[y2index] + this.col[i]);//downright moves
       }
     }
+
     y1index = this.row.indexOf(cury), y2index = this.row.indexOf(cury);
+
     for (let j = (+curx - 1); j >= 1; j--) {
       y1index = y1index + 1, y2index = y2index - 1;
       if (this.row[y2index] != undefined && this.col[j - 1] != undefined && this.row[y2index] != null && this.col[j - 1] != null) {
@@ -184,7 +273,13 @@ export class GameService {
         moves.push(this.row[y1index] + this.col[j - 1]);//downleft moves
       }
     }
+
     sessionStorage.setItem('moves', JSON.stringify(moves));
+
+    //console.log("moves:");
+    //console.log(sessionStorage.getItem('moves'));
+
+    this.checkPieces();
   }
 
 
@@ -198,6 +293,47 @@ export class GameService {
         element.innerHTML = "X";
       }
     }
+  }
+
+
+  checkPieces() {
+
+    let enemy = sessionStorage.getItem('player') == "P1" ? "P2" : "P1";
+    let enemies = document.getElementsByClassName(enemy);
+
+    let ally = sessionStorage.getItem('player') == "P1" ? "P1" : "P2";
+    let allies = document.getElementsByClassName(ally);
+
+    let moves: [] = JSON.parse(sessionStorage.getItem('moves'));
+
+    for (let knights in enemies) {
+      if (knights != 'length' && knights != 'item' && knights != 'namedItem') {
+        let pos: any = enemies[knights].classList[0];
+
+        for (let i in moves) {
+          if (moves[i] == pos) {
+            moves.splice(+i, 1);
+          }
+        }
+
+      }
+    }
+
+    for (let knights in allies) {
+      if (knights != 'length' && knights != 'item' && knights != 'namedItem') {
+        let pos: any = allies[knights].classList[0];
+
+        for (let i in moves) {
+          if (moves[i] == pos) {
+            moves.splice(+i, 1);
+          }
+        }
+
+      }
+    }
+
+    sessionStorage.setItem('moves', JSON.stringify(moves));
+
   }
 
 }

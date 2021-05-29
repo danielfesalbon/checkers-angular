@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
     }, err => { });
   }
 
-  openlink(){
+  openlink() {
     window.open(this.link);
   }
 
